@@ -14,17 +14,18 @@ Learning Golang by doing familiar things
 
 So far, you can build with 
 
-``` go build main.go -o gomanga ```
+``` go build main.go -o . ```
 
 And then you can run 
 
-``` gomanga -s "mangareader" -m "bleach" -c "chapter"```
+``` gomanga -s "mangareader" -m "bleach" -c 100"```
 
 
 
 ## TODO ##
 
-- make it work 
+- fix bugs
+- refactor
 - add multiple manga sources 
 - batch download 
 

@@ -1,4 +1,4 @@
-package mangahere
+package sites
 
 import (
 	"fmt"
