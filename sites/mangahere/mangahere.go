@@ -2,22 +2,21 @@ package mangahere
 
 import (
 	"fmt"
-	"net/http"
-	"time"
 )
 
 func FetchURL(link string) (string, string) {
 
-	var bodyString string
+	fmt.Println("hello")
+	// var bodyString string
 
-	client := &http.Client{
-		Timeout: 30 * time.Second,
-	}
-	resp, err := client.Get(link)
+	// client := &http.Client{
+	// 	Timeout: 30 * time.Second,
+	// }
+	// resp, err := client.Get(link)
 
-	if err != nil {
-		panic(err)
-	}
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 	// if resp.StatusCode == http.StatusOK {
 	// 	if doc, err := goquery.NewDocumentFromReader(resp.Body); err == nil {
