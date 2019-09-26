@@ -36,7 +36,6 @@ func init() {
 	options, _ := f.Parse(os.Args)
 
 	site, manga, chapter = checkParameter(options)
-
 }
 
 func main() {
@@ -46,7 +45,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	greet.test()
+	// greet.test()
 	// Create Manga Directory
 	// os.MkdirAll(manga, os.ModePerm)
 
