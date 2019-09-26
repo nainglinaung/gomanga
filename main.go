@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/nainglinaung/gomanga/sites/mangahere"
+
 	"github.com/ProfOak/flag2"
-	"github.com/nainglinaung/gomanga/mangareader/mangareader"
+	"github.com/nainglinaung/gomanga/sites/mangareader"
 )
 
 type Target struct {
@@ -56,15 +58,22 @@ func init() {
 	options, _ := f.Parse(os.Args)
 
 	site, manga, chapter = checkParameter(options)
+
+	// if err := json.Unmarshal(content, &parsers); err != nil {
+	// 	panic(err)
+	// }
+	// for _, parser := range parsers {
+	// 	parserMap[parser.Name] = parser
+	// }
 }
 
 func main() {
 
 	// currentParser = configs[site]
 
-	if configs[site].name == "mangareader" {
-		mangareader.FetchURL("asdasd")
-	}
+	fmt.Println(configs)
+	mangahere.FetchURL("adsas")
+	mangareader.FetchURL("asda")
 
 	// fullURL := fmt.Sprintf("%s/%s/%s", currentParser.Url, manga, chapter)
 	// fmt.Println(fullURL)
