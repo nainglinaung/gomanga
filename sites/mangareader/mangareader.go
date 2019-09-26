@@ -1,12 +1,16 @@
-package mangahere
+package mangareader
 
 import (
 	"fmt"
 )
 
+func execute() {
+
+}
+
 func FetchURL(link string) (string, string) {
 
-	fmt.Println("hello")
+	fmt.Println("domo")
 	// var bodyString string
 
 	// client := &http.Client{
