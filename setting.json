@@ -1,0 +1,73 @@
+[{
+    "url": "http://www.ecchi-manga.net",
+    "name": "ecchi-manga",
+    "image": {
+        "parent": "div",
+        "target": "a",
+        "attr": {
+            "align": "center"
+        }
+    },
+    "next": {
+        "parent": "div",
+        "target": "img",
+        "attr": {
+            "align": "center"
+        }
+    }
+},
+{
+    "url": "http://www.mangareader.net",
+    "name": "mangareader",
+    "image": {
+        "parent": "div",
+        "target": "img#img",
+        "attr": {
+            "id": "img"
+        }
+    },
+    "next": {
+        "parent": "div",
+        "target": "span.next > a",
+        "attr": {
+            "id": "imgholder"
+        }
+    }
+},
+{
+    "url": "http://www.mangahere.com",
+    "name":"mangahere",
+    "image": {
+        "parent": "section",
+        "target": "a",
+        "attr": {
+            "id": "viewer"
+        }
+    },
+    "next": {
+        "parent": "section",
+        "target": "img",
+        "attr": {
+            "id": "viewer"
+        }
+    }
+},
+{
+    "url": "http://www.mangafox.me",
+    "name": "mangafox",
+    "image": {
+        "parent": "div",
+        "target": "a",
+        "attr": {
+            "id": "viewer"
+        }
+    },
+    "next": {
+        "parent": "div",
+        "target": "img",
+        "attr": {
+            "id": "viewer"
+        }
+    }
+}
+]
