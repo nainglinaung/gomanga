@@ -2,55 +2,109 @@ package mangareader
 
 import (
 	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"strconv"
+	"strings"
+	"time"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
-func execute() {
+var (
+	selector     string
+	next         string
+	url          string
+	folderPath   string
+	imageCounter int
+)
+
+func checkError(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+// func createFile() *os.File {
+// 	file, err := os.Create(fileName)
+
+// 	checkError(err)
+// 	return file
+// }
+
+func init() {
+	selector = "img#img"
+	next = "span.next > a"
+	url = "http://www.mangareader.net"
+	imageCounter = 1
+}
+
+func Execute(manga string, chapter int) {
+
+	folderPath = fmt.Sprintf("%s/%d", manga, chapter)
+	os.MkdirAll(folderPath, os.ModePerm)
+	link := fmt.Sprintf("%s/%s/%d", url, manga, chapter)
+	crawl(link, chapter)
 
 }
 
 func FetchURL(link string) (string, string) {
 
-	fmt.Println("domo")
-	// var bodyString string
+	var bodyString string
 
-	// client := &http.Client{
-	// 	Timeout: 30 * time.Second,
-	// }
-	// resp, err := client.Get(link)
+	client := &http.Client{
+		Timeout: 30 * time.Second,
+	}
+	resp, err := client.Get(link)
 
-	// if err != nil {
-	// 	panic(err)
-	// }
+	checkError(err)
 
-	// if resp.StatusCode == http.StatusOK {
-	// 	if doc, err := goquery.NewDocumentFromReader(resp.Body); err == nil {
-	// 		bodyString, _ = doc.Find(currentParser.Image.Target).Attr("src")
-	// 		nexthref, _ := doc.Find(currentParser.Next.Target).Attr("href")
-	// 		nextLink := fmt.Sprintf("%s%s", currentParser.Url, nexthref)
-	// 		return bodyString, nextLink
-	// 	}
-	// }
+	if resp.StatusCode == http.StatusOK {
+		if doc, err := goquery.NewDocumentFromReader(resp.Body); err == nil {
+			bodyString, _ = doc.Find(selector).Attr("src")
+			nexthref, _ := doc.Find(next).Attr("href")
+			nextLink := fmt.Sprintf("%s%s", url, nexthref)
+			return bodyString, nextLink
+		}
+	}
 
 	return "nil", "nil"
 }
 
-// func extractDomain(link string) (string, error) {
-// 	u, err := url.Parse(link)
-// 	if err != nil {
-// 		return "", err
-// 	}
-// 	return u.Host, nil
-// }
+func crawl(url string, chapter int) {
 
-func crawl(url string) {
+	currentChapter, err := strconv.Atoi(strings.Split(url, "/")[4])
 
-	_, nextURL := FetchURL(url)
-	fmt.Println(nextURL)
-	// fmt.Println(nextURL)
-	// fmt.Println(url2)
+	checkError(err)
 
-	// chapter finish
-	crawl(nextURL)
+	if currentChapter == chapter {
+		imageURL, nextURL := FetchURL(url)
+		// fmt.Println(imageURL)
+		download(imageURL)
+		crawl(nextURL, chapter)
+	}
+
+}
+
+func download(url string) {
+
+	client := &http.Client{
+		Timeout: 30 * time.Second,
+	}
+
+	resp, err := client.Get(url)
+	defer resp.Body.Close()
+	checkError(err)
+	// folderPath
+
+	fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
+	imageCounter++
+	fmt.Println(fullImagePath)
+	file, err := os.Create(fullImagePath)
+
+	_, err = io.Copy(file, resp.Body)
+	checkError(err)
 
 }
 
