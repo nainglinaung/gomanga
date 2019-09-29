@@ -26,17 +26,6 @@ func checkError(err error) {
 	}
 }
 
-// func changeToLowerCase(title string) {
-// 	strings.ToLower(title)
-// }
-
-// func createFile() *os.File {
-// 	file, err := os.Create(fileName)
-
-// 	checkError(err)
-// 	return file
-// }
-
 func init() {
 	selector = "img#img"
 	next = "span.next > a"

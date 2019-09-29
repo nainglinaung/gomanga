@@ -7,6 +7,7 @@ import (
 
 	"github.com/ProfOak/flag2"
 	"github.com/nainglinaung/gomanga/sites/mangareader"
+	"github.com/nainglinaung/gomanga/sites/nhentai"
 )
 
 var (
@@ -48,9 +49,10 @@ func main() {
 	// greet.test()
 	// Create Manga Directory
 	// os.MkdirAll(manga, os.ModePerm)
-
 	if configs[site].name == "mangareader" {
 		mangareader.Execute(manga, chapter)
+	} else if configs[site].name == "nhentai" {
+		nhentai.Execute(chapter)
 	}
 
 }

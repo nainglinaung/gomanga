@@ -12,14 +12,9 @@ type config struct {
 
 var configs = map[string]config{
 	"mangareader": {
-		url: "http://www.mangareader.net", name: "mangareader",
-		image: element{
-			parent: "div", target: "img#img",
-			attr: map[string]string{"id": "img"},
-		},
-		next: element{
-			parent: "div", target: "span.next > a",
-			attr: map[string]string{"id": "imgholder"},
-		},
+		name: "mangareader",
+	},
+	"nhentai": {
+		name: "nhentai",
 	},
 }
