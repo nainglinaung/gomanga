@@ -26,6 +26,10 @@ func checkError(err error) {
 	}
 }
 
+// func changeToLowerCase(title string) {
+// 	strings.ToLower(title)
+// }
+
 // func createFile() *os.File {
 // 	file, err := os.Create(fileName)
 
@@ -40,8 +44,12 @@ func init() {
 	imageCounter = 1
 }
 
+// #Execute blah blah
 func Execute(manga string, chapter int) {
+	manga = strings.ToLower(manga)
+	manga = strings.Replace(manga, " ", "-", -1)
 
+	fmt.Println(manga)
 	folderPath = fmt.Sprintf("%s/%d", manga, chapter)
 	os.MkdirAll(folderPath, os.ModePerm)
 	link := fmt.Sprintf("%s/%s/%d", url, manga, chapter)
@@ -49,7 +57,7 @@ func Execute(manga string, chapter int) {
 
 }
 
-func FetchURL(link string) (string, string) {
+func fetchURL(link string) (string, string) {
 
 	var bodyString string
 
@@ -79,7 +87,7 @@ func crawl(url string, chapter int) {
 	checkError(err)
 
 	if currentChapter == chapter {
-		imageURL, nextURL := FetchURL(url)
+		imageURL, nextURL := fetchURL(url)
 		// fmt.Println(imageURL)
 		download(imageURL)
 		crawl(nextURL, chapter)
@@ -107,46 +115,3 @@ func download(url string) {
 	checkError(err)
 
 }
-
-// type ImageFetcher interface {
-// 	GetImage() io.Reader
-// }
-
-// type MangaReaderFetcher struct {
-// 	Html []byte
-// }
-
-// func (mr *MangaReaderFetcher) GetImage() io.Reader {
-// 	mr.
-// }
-
-// src, exist := doc.Find("#img").Attr("src")
-
-// if !exist {
-// 	panic(errors.New("Image not found"))
-// }
-
-// resp, err = client.Get(src)
-
-// if err != nil {
-// 	panic(err)
-// }
-
-// func crawl(url) {
-
-// 	var img []byte
-// 	resp.Body.Read(img)
-// 	defer resp.Body.Close()
-
-// 	f, err := os.OpenFile("test.jpg", os.O_RDWR|os.O_CREATE, 0755)
-// 	len, err := io.Copy(f, resp.Body)
-
-// 	if err != nil {
-// 		panic(err)
-// 	}
-
-// 	defer f.Close()
-
-// 	fmt.Println(len)
-
-// }
