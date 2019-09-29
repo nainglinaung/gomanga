@@ -78,8 +78,8 @@ func crawl(url string, chapter int) {
 	if currentChapter == chapter {
 		imageURL, nextURL := fetchURL(url)
 		// fmt.Println(imageURL)
-		download(imageURL)
-		crawl(nextURL, chapter)
+		go download(imageURL)
+		go crawl(nextURL, chapter)
 	}
 
 }

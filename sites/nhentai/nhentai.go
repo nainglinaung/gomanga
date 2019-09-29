@@ -66,6 +66,7 @@ func download(url string) {
 	defer resp.Body.Close()
 
 	fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
+	fmt.Println(fullImagePath)
 	imageCounter++
 	// fmt.Println(fullImagePath)
 	file, err := os.Create(fullImagePath)
