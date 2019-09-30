@@ -30,7 +30,7 @@ Depending on the provider, you can run as follows:
 
 ### nhentai ###
 
-``` gomanga -s "nhentai" -c 88848 ````
+``` gomanga -s "nhentai" -c 88848 ```
 
 ### mangatown ###
 
