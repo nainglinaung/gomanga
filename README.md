@@ -9,16 +9,20 @@ Manga Crawler app written in golang
 Learning Golang by doing familiar things 
 
 
+## Installation ##
 
-## Usage ##
-
-So far, you can build with 
-
-
+So far, you can build with  
 
 ``` go build main.go -o . ```
 
-And then you can run as follow depending on the provider
+and if you want to install globally 
+
+``` go get -u github.com/nainglinaung/gomanga```
+
+
+## Usage ##
+
+Depending on the provider, you can run as follows:
 
 ### mangareader ###
 
@@ -26,7 +30,7 @@ And then you can run as follow depending on the provider
 
 ### nhentai ###
 
-``` gomanga -s "nhentai" -c 88848 ```
+``` gomanga -s "nhentai" -c 88848 ````
 
 ### mangatown ###
 
