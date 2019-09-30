@@ -34,12 +34,20 @@ func init() {
 }
 
 // #Execute blah blah
-func Execute(manga string, chapter int) {
+func Execute(manga string, chapter int, output string) {
 	manga = strings.ToLower(manga)
 	manga = strings.Replace(manga, " ", "-", -1)
-
+	fmt.Println(output)
 	fmt.Println(manga)
-	folderPath = fmt.Sprintf("%s/%d", manga, chapter)
+
+	if output == "" {
+		folderPath = fmt.Sprintf("%s/%d", manga, chapter)
+	} else {
+		folderPath = fmt.Sprintf("%s%s/%d", output, manga, chapter)
+	}
+
+	fmt.Println(folderPath)
+
 	os.MkdirAll(folderPath, os.ModePerm)
 	link := fmt.Sprintf("%s/%s/%d", url, manga, chapter)
 	crawl(link, chapter)

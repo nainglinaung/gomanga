@@ -39,9 +39,7 @@ func fetchURL(link string) string {
 		Timeout: 30 * time.Second,
 	}
 	resp, err := client.Get(link)
-
 	checkError(err)
-
 	if resp.StatusCode == http.StatusOK {
 		if doc, err := goquery.NewDocumentFromReader(resp.Body); err == nil {
 			bodyString, _ = doc.Find(selector).Attr("src")

@@ -26,15 +26,30 @@ Depending on the provider, you can run as follows:
 
 ### mangareader ###
 
-``` gomanga -s "mangareader" -m "bleach" -c 100"```
+```gomanga -s "mangareader" -m "bleach" -c 100```
 
 ### nhentai ###
 
-``` gomanga -s "nhentai" -c 88848 ```
+```gomanga -s "nhentai" -c 88848 ```
 
 ### mangatown ###
 
-``` gomanga -s "mangatown" -m "Minamoto-kun Monogatari" -c 150```
+```gomanga -s "mangatown" -m "Minamoto-kun Monogatari" -c 150```
+
+## Definition ##
+
+
+### -c, --chapter ###
+
+Selecting the chapter you want to download 
+
+### -o, --output (optional) ###
+
+Selecting the destinated location of the downloaded images. If it's not selected, it'll automatically choose `.` as default.
+
+``` ./gomanga -s "mangareader"  -m "bleach" -c 120 -o "output/" ```
+
+
 
 
 
