@@ -17,4 +17,7 @@ var configs = map[string]config{
 	"nhentai": {
 		name: "nhentai",
 	},
+	"mangatown": {
+		name: "mangatown",
+	},
 }

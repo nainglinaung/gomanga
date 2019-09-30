@@ -19,7 +19,7 @@ var (
 )
 
 func init() {
-	selector = "#image-container > img"
+	selector = "#image-container > a > img"
 	url = "https://nhentai.net"
 	imageCounter = 1
 
@@ -89,7 +89,7 @@ func fetchURL(link string) string {
 
 	if resp.StatusCode == http.StatusOK {
 		if doc, err := goquery.NewDocumentFromReader(resp.Body); err == nil {
-			bodyString, _ = doc.Find("#image-container > a > img").Attr("src")
+			bodyString, _ = doc.Find(selector).Attr("src")
 			return bodyString
 		}
 	}

@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/ProfOak/flag2"
+	"github.com/nainglinaung/gomanga/sites/mangatown"
 	"github.com/nainglinaung/gomanga/sites/mangareader"
 	"github.com/nainglinaung/gomanga/sites/nhentai"
 )
@@ -53,6 +54,8 @@ func main() {
 		mangareader.Execute(manga, chapter)
 	} else if configs[site].name == "nhentai" {
 		nhentai.Execute(chapter)
+	} else if configs[site].name == "mangatown" {
+		mangatown.Execute(manga, chapter)
 	}
 
 }
