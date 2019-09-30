@@ -39,17 +39,24 @@ Depending on the provider, you can run as follows:
 ## Definition ##
 
 
+
+### -s, --site ###
+
+Selecting the website you wish to download. (eg. nhentai,mangareader,mangatown)
+
+### -m, --manga ##
+
+Selecting the title of the manga you wish to download (eg. bleach)
+
 ### -c, --chapter ###
 
-Selecting the chapter you want to download 
+Selecting the chapter you want to download.
 
 ### -o, --output (optional) ###
 
 Selecting the destinated location of the downloaded images. If it's not selected, it'll automatically choose `.` as default.
 
 ``` ./gomanga -s "mangareader"  -m "bleach" -c 120 -o "output/" ```
-
-
 
 
 

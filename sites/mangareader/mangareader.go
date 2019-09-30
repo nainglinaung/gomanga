@@ -47,11 +47,9 @@ func Execute(manga string, chapter int, output string) {
 	}
 
 	fmt.Println(folderPath)
-
 	os.MkdirAll(folderPath, os.ModePerm)
 	link := fmt.Sprintf("%s/%s/%d", url, manga, chapter)
 	crawl(link, chapter)
-
 }
 
 func fetchURL(link string) (string, string) {
