@@ -2,99 +2,65 @@ package mangatown
 
 import (
 	"fmt"
-	"io"
-	"net/http"
 	"os"
 	"strings"
-	"time"
 
-	"github.com/PuerkitoBio/goquery"
+	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
 
+type Selector struct {
+	current string
+	next    string
+}
+
 var (
-	selector     string
 	next         string
 	url          string
 	folderPath   string
 	imageCounter int
+	selector     Selector
 )
 
 func init() {
-	selector = "div#viewer > a > img"
+	selector.current = "#viewer > a > img"
+	selector.next = ""
 	url = "http://mangatown.com/"
 	imageCounter = 1
 }
 
-func checkError(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
-func fetchURL(link string) string {
-
-	var bodyString string
-
-	client := &http.Client{
-		Timeout: 30 * time.Second,
-	}
-	resp, err := client.Get(link)
-	checkError(err)
-	if resp.StatusCode == http.StatusOK {
-		if doc, err := goquery.NewDocumentFromReader(resp.Body); err == nil {
-			bodyString, _ = doc.Find(selector).Attr("src")
-			return bodyString
-		}
-	}
-
-	return "nil"
-}
-
-func Execute(manga string, chapter int) {
+func Execute(manga string, chapter int, output string) {
 	manga = strings.ToLower(manga)
 	manga = strings.Replace(manga, " ", "_", -1)
 	manga = strings.Replace(manga, "-", "_", -1)
 
-	fmt.Println(manga)
-	folderPath = fmt.Sprintf("%s/%d", manga, chapter)
-	os.MkdirAll(folderPath, os.ModePerm)
-	link := fmt.Sprintf("%s/manga/%s/c%03d", url, manga, chapter)
-	fmt.Println(link)
-	crawl(link)
-
-}
-
-func download(url string) {
-
-	client := &http.Client{
-		Timeout: 30 * time.Second,
+	if output == "" {
+		folderPath = fmt.Sprintf("%s/%d", manga, chapter)
+	} else {
+		folderPath = fmt.Sprintf("%s%s/%d", output, manga, chapter)
 	}
 
-	resp, err := client.Get(url)
-	defer resp.Body.Close()
-	checkError(err)
-	// folderPath
-
-	fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
-	imageCounter++
-	fmt.Println(fullImagePath)
-	file, err := os.Create(fullImagePath)
-
-	_, err = io.Copy(file, resp.Body)
-	checkError(err)
-
+	folderPath = fmt.Sprintf("%s/%d", manga, chapter)
+	os.MkdirAll(folderPath, os.ModePerm)
+	link := fmt.Sprintf("%smanga/%s/c%03d", url, manga, chapter)
+	fmt.Println(link)
+	crawl(link)
 }
 
 func crawl(url string) {
 
 	link := fmt.Sprintf("%s/%d.html", url, imageCounter)
-	imageURL := fetchURL(link)
+	resp := ehelper.FetchURL(link)
 
-	if imageURL != "nil" {
-		download(imageURL)
-		crawl(url)
+	if resp != nil {
+		fmt.Println(selector)
+		// link := ehelper.ParseResponse(resp.Body, selector)
+		// if len(link) > 0 {
+		// 	fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
+		// 	ehelper.Download(link, fullImagePath)
+		// 	imageCounter++
+		// 	link = fmt.Sprintf("%s/%d.html", url, imageCounter)
+		// 	crawl(url)
+		// }
+
 	}
-
-	// crawl(url)
-
 }

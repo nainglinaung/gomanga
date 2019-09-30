@@ -56,9 +56,9 @@ func main() {
 	if configs[site].name == "mangareader" {
 		mangareader.Execute(manga, chapter, output)
 	} else if configs[site].name == "nhentai" {
-		nhentai.Execute(chapter)
+		nhentai.Execute(chapter, output)
 	} else if configs[site].name == "mangatown" {
-		mangatown.Execute(manga, chapter)
+		mangatown.Execute(manga, chapter, output)
 	}
 
 }

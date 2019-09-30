@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
 
 var (
@@ -22,24 +23,20 @@ func init() {
 	selector = "#image-container > a > img"
 	url = "https://nhentai.net"
 	imageCounter = 1
-
 }
 
-func Execute(code int) {
+func Execute(code int, output string) {
 
-	fmt.Println(code)
-	folderPath = fmt.Sprintf("%d", code)
+	if output == "" {
+		folderPath = fmt.Sprintf("%d", code)
+	} else {
+		folderPath = fmt.Sprintf("%s/%d", output, code)
+	}
+
 	os.MkdirAll(folderPath, os.ModePerm)
-
 	link := fmt.Sprintf("%s/g/%d", url, code)
 	crawl(link, imageCounter)
 
-}
-
-func checkError(err error) {
-	if err != nil {
-		panic(err)
-	}
 }
 
 func crawl(url string, counter int) {
@@ -62,7 +59,7 @@ func download(url string) {
 	}
 
 	resp, err := client.Get(url)
-	checkError(err)
+	ehelper.CheckError(err)
 	defer resp.Body.Close()
 
 	fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
@@ -72,7 +69,7 @@ func download(url string) {
 	file, err := os.Create(fullImagePath)
 
 	_, err = io.Copy(file, resp.Body)
-	checkError(err)
+	ehelper.CheckError(err)
 
 }
 
@@ -85,7 +82,7 @@ func fetchURL(link string) string {
 	}
 	resp, err := client.Get(link)
 
-	checkError(err)
+	ehelper.CheckError(err)
 
 	if resp.StatusCode == http.StatusOK {
 		if doc, err := goquery.NewDocumentFromReader(resp.Body); err == nil {
