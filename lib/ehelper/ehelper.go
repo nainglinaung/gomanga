@@ -88,8 +88,6 @@ func ParseResponse(body io.Reader, selector Selector) (string, string) {
 }
 
 func Download(url string, fullImagePath string) {
-	// println(url)
-	// println(fullImagePath)
 	resp := request(url)
 	file, err := os.Create(fullImagePath)
 	_, err = io.Copy(file, resp.Body)

@@ -26,12 +26,14 @@ func Execute(manga string, chapter int, output string) {
 	manga = ehelper.LowerAndReplace(manga, " ", "_")
 	manga = strings.Replace(manga, "-", "_", -1)
 	folderPath = ehelper.CreateFolderPath(manga, chapter, output)
+	ehelper.CreateFolder(folderPath)
 	url := fmt.Sprintf("%smanga/%s/c%03d", url, manga, chapter)
 	crawl(url)
 }
 
 func crawl(url string) {
 	fileLink := fmt.Sprintf("%s/%d.html", url, imageCounter)
+	println(fileLink)
 	resp := ehelper.FetchURL(fileLink)
 
 	if resp != nil {

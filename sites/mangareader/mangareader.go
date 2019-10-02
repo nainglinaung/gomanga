@@ -26,6 +26,7 @@ func init() {
 func Execute(manga string, chapter int, output string) {
 	manga = ehelper.LowerAndReplace(manga, " ", "-")
 	folderPath = ehelper.CreateFolderPath(manga, chapter, output)
+	ehelper.CreateFolder(folderPath)
 	println(folderPath)
 	crawl(fmt.Sprintf("%s/%s/%d", url, manga, chapter), chapter)
 }
