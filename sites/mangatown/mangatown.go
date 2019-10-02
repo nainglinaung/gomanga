@@ -2,65 +2,47 @@ package mangatown
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
-
-type Selector struct {
-	current string
-	next    string
-}
 
 var (
 	next         string
 	url          string
 	folderPath   string
 	imageCounter int
-	selector     Selector
+	selector     ehelper.Selector
 )
 
 func init() {
-	selector.current = "#viewer > a > img"
-	selector.next = ""
+	selector.Current = "#viewer > a > img"
+	selector.Next = ""
 	url = "http://mangatown.com/"
 	imageCounter = 1
 }
 
 func Execute(manga string, chapter int, output string) {
-	manga = strings.ToLower(manga)
-	manga = strings.Replace(manga, " ", "_", -1)
+	manga = ehelper.LowerAndReplace(manga, " ", "_")
 	manga = strings.Replace(manga, "-", "_", -1)
-
-	if output == "" {
-		folderPath = fmt.Sprintf("%s/%d", manga, chapter)
-	} else {
-		folderPath = fmt.Sprintf("%s%s/%d", output, manga, chapter)
-	}
-
-	folderPath = fmt.Sprintf("%s/%d", manga, chapter)
-	os.MkdirAll(folderPath, os.ModePerm)
-	link := fmt.Sprintf("%smanga/%s/c%03d", url, manga, chapter)
-	fmt.Println(link)
-	crawl(link)
+	folderPath = ehelper.CreateFolderPath(manga, chapter, output)
+	url := fmt.Sprintf("%smanga/%s/c%03d", url, manga, chapter)
+	crawl(url)
 }
 
 func crawl(url string) {
-
-	link := fmt.Sprintf("%s/%d.html", url, imageCounter)
-	resp := ehelper.FetchURL(link)
+	fileLink := fmt.Sprintf("%s/%d.html", url, imageCounter)
+	resp := ehelper.FetchURL(fileLink)
 
 	if resp != nil {
-		fmt.Println(selector)
-		// link := ehelper.ParseResponse(resp.Body, selector)
-		// if len(link) > 0 {
-		// 	fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
-		// 	ehelper.Download(link, fullImagePath)
-		// 	imageCounter++
-		// 	link = fmt.Sprintf("%s/%d.html", url, imageCounter)
-		// 	crawl(url)
-		// }
+		imageLink, _ := ehelper.ParseResponse(resp.Body, selector)
+		if len(imageLink) > 0 {
+			fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
+			fmt.Println(fullImagePath)
+			ehelper.Download(imageLink, fullImagePath)
+			imageCounter++
+			crawl(url)
+		}
 
 	}
 }

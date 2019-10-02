@@ -2,7 +2,6 @@ package mangareader
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 
@@ -25,22 +24,14 @@ func init() {
 
 // #Execute blah blah
 func Execute(manga string, chapter int, output string) {
-	manga = strings.ToLower(manga)
-	manga = strings.Replace(manga, " ", "-", -1)
-
-	if output == "" {
-		folderPath = fmt.Sprintf("%s/%d", manga, chapter)
-	} else {
-		folderPath = fmt.Sprintf("%s/%s/%d", output, manga, chapter)
-	}
-
-	os.MkdirAll(folderPath, os.ModePerm)
-	link := fmt.Sprintf("%s/%s/%d", url, manga, chapter)
-	crawl(link, chapter)
+	manga = ehelper.LowerAndReplace(manga, " ", "-")
+	folderPath = ehelper.CreateFolderPath(manga, chapter, output)
+	println(folderPath)
+	crawl(fmt.Sprintf("%s/%s/%d", url, manga, chapter), chapter)
 }
 
 func crawl(link string, chapter int) {
-
+	println(link)
 	currentChapter, err := strconv.Atoi(strings.Split(link, "/")[4])
 	ehelper.CheckError(err)
 
@@ -48,12 +39,12 @@ func crawl(link string, chapter int) {
 		resp := ehelper.FetchURL(link)
 		if resp != nil {
 			imageURL, nextLink := ehelper.ParseResponse(resp.Body, selector)
+			defer resp.Body.Close()
 			if len(link) > 0 {
 				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
 				nextLink = fmt.Sprintf("%s%s", url, nextLink)
 				ehelper.Download(imageURL, fullImagePath)
 				imageCounter++
-				fmt.Println(nextLink)
 				crawl(nextLink, chapter)
 			}
 		}
