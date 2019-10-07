@@ -32,11 +32,26 @@ type Selector struct {
 	Next    string
 }
 
-type User struct {
-	name string
-}
+// type User struct {
+// 	name string
+// }
 
 // func (d *Downloader) Download(link) []byte, error {
+
+func (e Ehelper) RequestChapterLink(url string) *http.Response {
+	return e.request(url)
+}
+
+func (e Ehelper) ParseChapter(body io.Reader, chapterSelector string) string {
+	doc, err := goquery.NewDocumentFromReader(body)
+	e.CheckError(err)
+	token, exist := doc.Find(chapterSelector).Attr("href")
+	if exist {
+		return token
+	}
+	return ""
+
+}
 
 func (e Ehelper) request(url string) *http.Response {
 	client := &http.Client{
@@ -63,7 +78,6 @@ func (e Ehelper) ParseResponse(body io.Reader, selector Selector) (string, strin
 
 	// selector.Current
 	bodyString, existFlag := doc.Find(selector.Current).Attr("src")
-	// .Attr("src")
 	nextString, existFlag2 := doc.Find(selector.Next).Attr("href")
 	// fmt.Println(bodyString)
 	// CheckError(existFlag)

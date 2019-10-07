@@ -36,6 +36,10 @@ Depending on the provider, you can run as follows:
 
 ```gomanga -s "mangatown" -m "Minamoto-kun Monogatari" -c 150```
 
+### hentai cafe ###
+
+```gomanga -s "hentai-cafe" -c 12352```
+
 ## Definition ##
 
 

@@ -25,32 +25,20 @@ func init() {
 
 }
 
-// func (d *Downloader) Download(link) []byte, error {
-// 	//download
-// }
-// type Crawler struct {
-// 	downler Downler
-// }
-
-// func (c *Crawler) Crawl(link string, chapter int) {
-
-// }
-
 // #Execute blah blah
 func Execute(manga string, chapter int, output string) {
 	manga = helper.LowerAndReplace(manga, " ", "-")
 	folderPath = helper.CreateFolderPath(manga, chapter, output)
 	helper.CreateFolder(folderPath)
-
 	println(folderPath)
 	crawl(fmt.Sprintf("%s/%s/%d", url, manga, chapter), chapter)
 }
 
 func crawl(link string, chapter int) {
 	// println(link)
+
 	currentChapter, err := strconv.Atoi(strings.Split(link, "/")[4])
 	helper.CheckError(err)
-
 	if currentChapter == chapter {
 		resp := helper.FetchURL(link)
 		if resp != nil {
