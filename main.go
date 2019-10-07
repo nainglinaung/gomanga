@@ -32,7 +32,7 @@ func checkParameter(options flag2.Options) (string, string, string, string) {
 func init() {
 
 	f := flag2.NewFlag()
-
+	fmt.Println("GoManga Starting:")
 	f.AddString("s", "site", "Which mangawebsite do you want to fetch", "mangareader")
 	f.AddString("m", "manga", "Which manga do you want to fetch", "bleach")
 	f.AddString("c", "chapter", "Which chapter do you want to fetch", "482")
