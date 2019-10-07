@@ -15,6 +15,7 @@ var (
 	url          string
 	folderPath   string
 	imageCounter int
+	helper       ehelper.Ehelper
 )
 
 func init() {
@@ -32,7 +33,7 @@ func Execute(code int, output string) {
 		folderPath = fmt.Sprintf("%s/%d", output, code)
 	}
 
-	ehelper.CreateFolder(folderPath)
+	helper.CreateFolder(folderPath)
 	crawl(fmt.Sprintf("%s/g/%d", url, code), 1)
 
 }
@@ -44,7 +45,7 @@ func crawl(url string, counter int) {
 	imageURL := fetchURL(fileLink)
 	if imageURL != "nil" {
 		fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, counter)
-		ehelper.Download(imageURL, fullImagePath)
+		helper.Download(imageURL, fullImagePath)
 		counter++
 		crawl(url, counter)
 	}
@@ -60,7 +61,7 @@ func fetchURL(link string) string {
 	}
 	resp, err := client.Get(link)
 
-	ehelper.CheckError(err)
+	helper.CheckError(err)
 
 	if resp.StatusCode == http.StatusOK {
 		if doc, err := goquery.NewDocumentFromReader(resp.Body); err == nil {

@@ -13,6 +13,8 @@ var (
 	folderPath   string
 	imageCounter int
 	selector     ehelper.Selector
+	helper       ehelper.Ehelper
+	// ehelper ehelper
 )
 
 func init() {
@@ -20,31 +22,44 @@ func init() {
 	selector.Next = "span.next > a"
 	url = "http://www.mangareader.net"
 	imageCounter = 1
+
 }
+
+// func (d *Downloader) Download(link) []byte, error {
+// 	//download
+// }
+// type Crawler struct {
+// 	downler Downler
+// }
+
+// func (c *Crawler) Crawl(link string, chapter int) {
+
+// }
 
 // #Execute blah blah
 func Execute(manga string, chapter int, output string) {
-	manga = ehelper.LowerAndReplace(manga, " ", "-")
-	folderPath = ehelper.CreateFolderPath(manga, chapter, output)
-	ehelper.CreateFolder(folderPath)
+	manga = helper.LowerAndReplace(manga, " ", "-")
+	folderPath = helper.CreateFolderPath(manga, chapter, output)
+	helper.CreateFolder(folderPath)
+
 	println(folderPath)
 	crawl(fmt.Sprintf("%s/%s/%d", url, manga, chapter), chapter)
 }
 
 func crawl(link string, chapter int) {
-	println(link)
+	// println(link)
 	currentChapter, err := strconv.Atoi(strings.Split(link, "/")[4])
-	ehelper.CheckError(err)
+	helper.CheckError(err)
 
 	if currentChapter == chapter {
-		resp := ehelper.FetchURL(link)
+		resp := helper.FetchURL(link)
 		if resp != nil {
-			imageURL, nextLink := ehelper.ParseResponse(resp.Body, selector)
+			imageURL, nextLink := helper.ParseResponse(resp.Body, selector)
 			defer resp.Body.Close()
 			if len(link) > 0 {
 				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
 				nextLink = fmt.Sprintf("%s%s", url, nextLink)
-				ehelper.Download(imageURL, fullImagePath)
+				helper.Download(imageURL, fullImagePath)
 				imageCounter++
 				crawl(nextLink, chapter)
 			}
