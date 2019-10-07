@@ -38,7 +38,7 @@ Depending on the provider, you can run as follows:
 
 ### hentai cafe ###
 
-```gomanga -s "hentai-cafe" -c 12352```
+```gomanga -s "hentaicafe" -c 12352```
 
 ## Definition ##
 
