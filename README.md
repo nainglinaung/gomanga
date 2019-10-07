@@ -70,4 +70,5 @@ Selecting the destinated location of the downloaded images. If it's not selected
 - refactor
 - add multiple manga sources 
 - batch download 
+- need to zip and change to cbz 
 
