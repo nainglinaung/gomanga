@@ -24,6 +24,7 @@ type FileHandler interface {
 type Ehelper struct {
 	ErrorHandler
 	RequestHandler
+	LogHandler
 	FileHandler
 }
 
@@ -31,12 +32,6 @@ type Selector struct {
 	Current string
 	Next    string
 }
-
-// type User struct {
-// 	name string
-// }
-
-// func (d *Downloader) Download(link) []byte, error {
 
 func (e Ehelper) RequestChapterLink(url string) *http.Response {
 	return e.request(url)
@@ -75,12 +70,8 @@ func (e Ehelper) FetchURL(link string) *http.Response {
 func (e Ehelper) ParseResponse(body io.Reader, selector Selector) (string, string) {
 	doc, err := goquery.NewDocumentFromReader(body)
 	e.CheckError(err)
-
-	// selector.Current
 	bodyString, existFlag := doc.Find(selector.Current).Attr("src")
 	nextString, existFlag2 := doc.Find(selector.Next).Attr("href")
-	// fmt.Println(bodyString)
-	// CheckError(existFlag)
 	if existFlag && existFlag2 {
 		return bodyString, nextString
 	} else if existFlag && !existFlag2 {

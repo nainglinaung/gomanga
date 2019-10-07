@@ -65,6 +65,7 @@ func crawl(link string) {
 				nextLink := strings.Join(currentLinkArray, "/")
 				println(nextLink)
 				helper.Download(imageURL, fullImagePath)
+				helper.Log(fullImagePath)
 				crawl(nextLink)
 			}
 		}

@@ -46,6 +46,7 @@ func crawl(url string, counter int) {
 	if imageURL != "nil" {
 		fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, counter)
 		helper.Download(imageURL, fullImagePath)
+		helper.Log(fullImagePath)
 		counter++
 		crawl(url, counter)
 	}

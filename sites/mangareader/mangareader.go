@@ -14,7 +14,6 @@ var (
 	imageCounter int
 	selector     ehelper.Selector
 	helper       ehelper.Ehelper
-	// ehelper ehelper
 )
 
 func init() {
@@ -35,7 +34,6 @@ func Execute(manga string, chapter int, output string) {
 }
 
 func crawl(link string, chapter int) {
-	// println(link)
 
 	currentChapter, err := strconv.Atoi(strings.Split(link, "/")[4])
 	helper.CheckError(err)
@@ -48,6 +46,7 @@ func crawl(link string, chapter int) {
 				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
 				nextLink = fmt.Sprintf("%s%s", url, nextLink)
 				helper.Download(imageURL, fullImagePath)
+				helper.Log(fullImagePath)
 				imageCounter++
 				crawl(nextLink, chapter)
 			}
