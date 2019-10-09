@@ -22,10 +22,12 @@ func init() {
 func Execute(code int, output string) {
 
 	if output == "" {
-		helper.CreateFolder(fmt.Sprintf("%d", code))
+		folderPath = fmt.Sprintf("%d", code)
 	} else {
-		helper.CreateFolder(fmt.Sprintf("%s%d", output, code))
+		folderPath = fmt.Sprintf("%s%d", output, code)
 	}
+
+	helper.CreateFolder(folderPath)
 
 	crawl(fmt.Sprintf("%s/read/%d", url, code), 1)
 }
