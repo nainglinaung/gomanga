@@ -7,6 +7,7 @@ import (
 
 	"github.com/ProfOak/flag2"
 	"github.com/nainglinaung/gomanga/sites/hentaicafe"
+	"github.com/nainglinaung/gomanga/sites/hentainexus"
 	"github.com/nainglinaung/gomanga/sites/mangareader"
 	"github.com/nainglinaung/gomanga/sites/mangatown"
 	"github.com/nainglinaung/gomanga/sites/nhentai"
@@ -54,15 +55,18 @@ func main() {
 	// Create Manga Directory
 
 	// os.MkdirAll(manga, os.ModePerm)
-	if configs[site].name == "mangareader" {
-		mangareader.Execute(manga, chapter, output)
-	} else if configs[site].name == "nhentai" {
-		nhentai.Execute(chapter, output)
-	} else if configs[site].name == "mangatown" {
-		mangatown.Execute(manga, chapter, output)
-	} else if configs[site].name == "hentaicafe" {
-		hentaicafe.Execute(chapter, output)
 
+	switch name := configs[site].name; name {
+	case "mangareader":
+		mangareader.Execute(manga, chapter, output)
+	case "nhentai":
+		nhentai.Execute(chapter, output)
+	case "mangatown":
+		mangatown.Execute(manga, chapter, output)
+	case "hentaicafe":
+		hentaicafe.Execute(chapter, output)
+	case "hentainexus":
+		hentainexus.Execute(chapter, output)
 	}
 
 }
