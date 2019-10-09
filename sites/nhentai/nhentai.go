@@ -2,15 +2,12 @@ package nhentai
 
 import (
 	"fmt"
-	"net/http"
-	"time"
 
-	"github.com/PuerkitoBio/goquery"
 	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
 
 var (
-	selector     string
+	selector     ehelper.Selector
 	next         string
 	url          string
 	folderPath   string
@@ -19,57 +16,34 @@ var (
 )
 
 func init() {
-	selector = "#image-container > a > img"
+	selector.Current = "#image-container > a > img"
 	url = "https://nhentai.net"
 }
 
 func Execute(code int, output string) {
 
-	// folderPath = ehelper.CreateFolderPath(manga, chapter, output)
-
 	if output == "" {
 		folderPath = fmt.Sprintf("%d", code)
 	} else {
-		folderPath = fmt.Sprintf("%s/%d", output, code)
+		folderPath = fmt.Sprintf("%s%d", output, code)
 	}
 
 	helper.CreateFolder(folderPath)
 	crawl(fmt.Sprintf("%s/g/%d", url, code), 1)
-
 }
 
-func crawl(url string, counter int) {
+func crawl(link string, counter int) {
 
-	// if currentChapter == chapter {
-	fileLink := fmt.Sprintf("%s/%d", url, counter)
-	imageURL := fetchURL(fileLink)
-	if imageURL != "nil" {
+	fileLink := fmt.Sprintf("%s/%d", link, counter)
+	resp := helper.FetchURL(fileLink)
+
+	if resp != nil {
+		imageLink, _ := helper.ParseResponse(resp.Body, selector)
 		fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, counter)
-		helper.Download(imageURL, fullImagePath)
+		helper.Download(imageLink, fullImagePath)
 		helper.Log(fullImagePath)
 		counter++
-		crawl(url, counter)
+		crawl(link, counter)
 	}
 
-}
-
-func fetchURL(link string) string {
-
-	var bodyString string
-
-	client := &http.Client{
-		Timeout: 30 * time.Second,
-	}
-	resp, err := client.Get(link)
-
-	helper.CheckError(err)
-
-	if resp.StatusCode == http.StatusOK {
-		if doc, err := goquery.NewDocumentFromReader(resp.Body); err == nil {
-			bodyString, _ = doc.Find(selector).Attr("src")
-			return bodyString
-		}
-	}
-
-	return "nil"
 }

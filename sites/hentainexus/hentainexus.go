@@ -22,12 +22,11 @@ func init() {
 func Execute(code int, output string) {
 
 	if output == "" {
-		folderPath = fmt.Sprintf("%d", code)
+		helper.CreateFolder(fmt.Sprintf("%d", code))
 	} else {
-		folderPath = fmt.Sprintf("%s%d", output, code)
+		helper.CreateFolder(fmt.Sprintf("%s%d", output, code))
 	}
 
-	helper.CreateFolder(folderPath)
 	crawl(fmt.Sprintf("%s/read/%d", url, code), 1)
 }
 
@@ -35,8 +34,8 @@ func crawl(link string, counter int) {
 
 	fileLink := fmt.Sprintf("%s/%03d", link, counter)
 	resp := helper.FetchURL(fileLink)
-	imageLink, _ := helper.ParseResponse(resp.Body, selector)
 	if resp != nil {
+		imageLink, _ := helper.ParseResponse(resp.Body, selector)
 		if len(imageLink) > 0 {
 			fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, counter)
 			helper.Download(imageLink, fullImagePath)
