@@ -51,10 +51,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// greet.test()
-	// Create Manga Directory
-
-	// os.MkdirAll(manga, os.ModePerm)
 
 	switch name := configs[site].name; name {
 	case "mangareader":

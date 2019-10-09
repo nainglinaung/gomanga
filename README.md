@@ -28,7 +28,7 @@ Depending on the provider, you can run as follows:
 
 ```gomanga -s "mangareader" -m "bleach" -c 100```
 
-### nhentai ###
+### nhentai, hentaicafe, hentainexus ###
 
 ```gomanga -s "nhentai" -c 88848 ```
 
@@ -36,9 +36,6 @@ Depending on the provider, you can run as follows:
 
 ```gomanga -s "mangatown" -m "Minamoto-kun Monogatari" -c 150```
 
-### hentai cafe ###
-
-```gomanga -s "hentaicafe" -c 12352```
 
 ## Definition ##
 
