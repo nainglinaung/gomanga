@@ -10,6 +10,7 @@ import (
 	"github.com/nainglinaung/gomanga/sites/hentainexus"
 	"github.com/nainglinaung/gomanga/sites/mangareader"
 	"github.com/nainglinaung/gomanga/sites/mangatown"
+	"github.com/nainglinaung/gomanga/sites/mangazuki"
 	"github.com/nainglinaung/gomanga/sites/nhentai"
 )
 
@@ -63,6 +64,8 @@ func main() {
 		hentaicafe.Execute(chapter, output)
 	case "hentainexus":
 		hentainexus.Execute(chapter, output)
+	case "mangazuki":
+		mangazuki.Execute(manga, chapter, output)
 	}
 
 }

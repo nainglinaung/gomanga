@@ -26,4 +26,7 @@ var configs = map[string]config{
 	"hentainexus": {
 		name: "hentainexus",
 	},
+	"mangazuki": {
+		name: "mangazuki",
+	},
 }

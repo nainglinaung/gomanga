@@ -48,6 +48,21 @@ func (e Ehelper) ParseChapter(body io.Reader, chapterSelector string) string {
 
 }
 
+func (e Ehelper) ParseChapterArray(body io.Reader, selector Selector) []string {
+	doc, err := goquery.NewDocumentFromReader(body)
+	exampleSlice := []string{}
+	e.CheckError(err)
+	doc.Find(selector.Current).Each(func(i int, s *goquery.Selection) {
+		data, exist := s.Attr("src")
+		if exist {
+			// fmt.Println(data)
+			exampleSlice = append(exampleSlice, data)
+		}
+
+	})
+	return exampleSlice
+}
+
 func (e Ehelper) request(url string) *http.Response {
 	client := &http.Client{
 		Timeout: 30 * time.Second,

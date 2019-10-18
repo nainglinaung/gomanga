@@ -24,17 +24,13 @@ and if you want to install globally
 
 Depending on the provider, you can run as follows:
 
-### mangareader ###
+### mangareader,mangatown,mangazuki ###
 
-```gomanga -s "mangareader" -m "bleach" -c 100```
+```gomanga -s "mangareader" -m "World Trigger" -c 15```
 
 ### nhentai, hentaicafe, hentainexus ###
 
 ```gomanga -s "nhentai" -c 88848 ```
-
-### mangatown ###
-
-```gomanga -s "mangatown" -m "Minamoto-kun Monogatari" -c 150```
 
 
 ## Definition ##
@@ -68,4 +64,5 @@ Selecting the destinated location of the downloaded images. If it's not selected
 - add multiple manga sources 
 - batch download 
 - need to zip and change to cbz 
-
+- add mangasy, topmanhua, isekaiscan,mangapanda,mangakakalot, mangafreak,mngdoom,manga-here
+- otakusmash (comic)
