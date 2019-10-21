@@ -24,7 +24,7 @@ and if you want to install globally
 
 Depending on the provider, you can run as follows:
 
-### mangareader,mangatown,mangazuki,mangapanda,isekaiscan ###
+### mangareader,mangatown,mangazuki,mangapanda,isekaiscan,mngdoom ###
 
 ```gomanga -s "mangareader" -m "World Trigger" -c 15```
 
