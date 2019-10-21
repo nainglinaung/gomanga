@@ -24,7 +24,7 @@ and if you want to install globally
 
 Depending on the provider, you can run as follows:
 
-### mangareader,mangatown,mangazuki,mangapanda,isekaiscan,mngdoom ###
+### mangareader,mangatown,mangazuki,mangapanda,isekaiscan,mngdoom,topmanhua ###
 
 ```gomanga -s "mangareader" -m "World Trigger" -c 15```
 
@@ -64,6 +64,6 @@ Selecting the destinated location of the downloaded images. If it's not selected
 - add multiple manga sources 
 - batch download 
 - need to zip and change to cbz 
-- add mangasy, topmanhua,mangakakalot, mangafreak,manga-here
+- add mangasy,mangakakalot, mangafreak,manga-here
 - otakusmash (comic)
 - goroutine to all
