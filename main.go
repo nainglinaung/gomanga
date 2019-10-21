@@ -13,6 +13,7 @@ import (
 	"github.com/nainglinaung/gomanga/sites/mangareader"
 	"github.com/nainglinaung/gomanga/sites/mangatown"
 	"github.com/nainglinaung/gomanga/sites/mangazuki"
+	"github.com/nainglinaung/gomanga/sites/mngdoom"
 	"github.com/nainglinaung/gomanga/sites/nhentai"
 )
 
@@ -72,6 +73,8 @@ func main() {
 		mangapanda.Execute(manga, chapter, output)
 	case "isekaiscan":
 		isekaiscan.Execute(manga, chapter, output)
+	case "mngdoom":
+		mngdoom.Execute(manga, chapter, output)
 	}
 
 }

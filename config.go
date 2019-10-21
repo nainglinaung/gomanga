@@ -35,4 +35,7 @@ var configs = map[string]config{
 	"isekaiscan": {
 		name: "isekaiscan",
 	},
+	"mngdoom": {
+		name: "mngdoom",
+	},
 }

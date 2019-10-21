@@ -50,15 +50,22 @@ func (e Ehelper) ParseChapter(body io.Reader, chapterSelector string) string {
 
 func (e Ehelper) ParseChapterArray(body io.Reader, selector Selector) []string {
 	doc, err := goquery.NewDocumentFromReader(body)
+
 	exampleSlice := []string{}
 	e.CheckError(err)
 	doc.Find(selector.Current).Each(func(i int, s *goquery.Selection) {
+
 		data, exist := s.Attr("src")
 		if exist {
 			exampleSlice = append(exampleSlice, data)
 		} else {
-			data, _ := s.Attr("data-src")
-			exampleSlice = append(exampleSlice, data)
+			data, exist := s.Attr("data-src")
+			if exist {
+				exampleSlice = append(exampleSlice, data)
+			} else {
+				data, _ := s.Attr("value")
+				exampleSlice = append(exampleSlice, data)
+			}
 		}
 
 	})
