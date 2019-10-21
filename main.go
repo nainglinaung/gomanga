@@ -15,6 +15,7 @@ import (
 	"github.com/nainglinaung/gomanga/sites/mangazuki"
 	"github.com/nainglinaung/gomanga/sites/mngdoom"
 	"github.com/nainglinaung/gomanga/sites/nhentai"
+	"github.com/nainglinaung/gomanga/sites/topmanhua"
 )
 
 var (
@@ -75,6 +76,8 @@ func main() {
 		isekaiscan.Execute(manga, chapter, output)
 	case "mngdoom":
 		mngdoom.Execute(manga, chapter, output)
+	case "topmanhua":
+		topmanhua.Execute(manga, chapter, output)
 	}
 
 }

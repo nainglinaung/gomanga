@@ -38,4 +38,7 @@ var configs = map[string]config{
 	"mngdoom": {
 		name: "mngdoom",
 	},
+	"topmanhua": {
+		name: "topmanhua",
+	},
 }
