@@ -82,6 +82,21 @@ func (e Ehelper) FetchURL(link string) *http.Response {
 	}
 }
 
+func (e Ehelper) ParseTotalCount(body io.Reader, selector Selector) []string {
+	doc, err := goquery.NewDocumentFromReader(body)
+	exampleSlice := []string{}
+	e.CheckError(err)
+	doc.Find(selector.Next).Each(func(i int, s *goquery.Selection) {
+		data, exist := s.Attr("value")
+		if exist {
+			exampleSlice = append(exampleSlice, data)
+		}
+
+	})
+	return exampleSlice
+
+}
+
 func (e Ehelper) ParseResponse(body io.Reader, selector Selector) (string, string) {
 	doc, err := goquery.NewDocumentFromReader(body)
 	e.CheckError(err)

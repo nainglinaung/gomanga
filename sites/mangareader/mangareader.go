@@ -2,8 +2,7 @@ package mangareader
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
+	"sync"
 
 	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
@@ -13,12 +12,13 @@ var (
 	folderPath   string
 	imageCounter int
 	selector     ehelper.Selector
+	wg           sync.WaitGroup
 	helper       ehelper.Ehelper
 )
 
 func init() {
 	selector.Current = "img#img"
-	selector.Next = "span.next > a"
+	selector.Next = "#pageMenu > option"
 	url = "http://www.mangareader.net"
 	imageCounter = 1
 
@@ -30,27 +30,33 @@ func Execute(manga string, chapter int, output string) {
 	folderPath = helper.CreateFolderPath(manga, chapter, output)
 	helper.CreateFolder(folderPath)
 	println(folderPath)
-	crawl(fmt.Sprintf("%s/%s/%d", url, manga, chapter), chapter)
+	crawl(fmt.Sprintf("%s/%s/%d", url, manga, chapter))
 }
 
-func crawl(link string, chapter int) {
+func GetTotalCount(link string) []string {
+	resp := helper.FetchURL(link)
+	return helper.ParseTotalCount(resp.Body, selector)
+}
 
-	currentChapter, err := strconv.Atoi(strings.Split(link, "/")[4])
-	helper.CheckError(err)
-	if currentChapter == chapter {
-		resp := helper.FetchURL(link)
-		if resp != nil {
-			imageURL, nextLink := helper.ParseResponse(resp.Body, selector)
-			defer resp.Body.Close()
-			if len(link) > 0 {
-				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, imageCounter)
-				nextLink = fmt.Sprintf("%s%s", url, nextLink)
+func crawl(link string) {
+
+	imageList := GetTotalCount(link)
+	imageArrayLength := len(imageList)
+	wg.Add(imageArrayLength)
+
+	for i := 0; i < imageArrayLength; i++ {
+		go func(i int) {
+			fullURL := fmt.Sprintf("%s%s", url, imageList[i])
+			resp := helper.FetchURL(fullURL)
+			if resp != nil {
+				imageURL, _ := helper.ParseResponse(resp.Body, selector)
+				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, i)
 				helper.Download(imageURL, fullImagePath)
 				helper.Log(fullImagePath)
-				imageCounter++
-				crawl(nextLink, chapter)
+				defer wg.Done()
 			}
-		}
+		}(i)
 	}
+	wg.Wait()
 
 }
