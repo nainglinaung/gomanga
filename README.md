@@ -64,6 +64,6 @@ Selecting the destinated location of the downloaded images. If it's not selected
 - add multiple manga sources 
 - batch download 
 - need to zip and change to cbz 
-- add mangasy, topmanhua,mangakakalot, mangafreak,mngdoom,manga-here
+- add mangasy, topmanhua,mangakakalot, mangafreak,manga-here
 - otakusmash (comic)
 - goroutine to all
