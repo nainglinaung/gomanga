@@ -46,9 +46,7 @@ func crawl(link string) {
 	for i := 0; i < imageArrayLength; i++ {
 		go func(i int) {
 			fullURL := fmt.Sprintf("%s%s", url, imageList[i])
-
 			resp := helper.FetchURL(fullURL)
-
 			if resp != nil {
 				imageURL, _ := helper.ParseResponse(resp.Body, selector)
 				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, i)
