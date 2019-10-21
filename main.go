@@ -8,6 +8,7 @@ import (
 	"github.com/ProfOak/flag2"
 	"github.com/nainglinaung/gomanga/sites/hentaicafe"
 	"github.com/nainglinaung/gomanga/sites/hentainexus"
+	"github.com/nainglinaung/gomanga/sites/isekaiscan"
 	"github.com/nainglinaung/gomanga/sites/mangapanda"
 	"github.com/nainglinaung/gomanga/sites/mangareader"
 	"github.com/nainglinaung/gomanga/sites/mangatown"
@@ -69,6 +70,8 @@ func main() {
 		mangazuki.Execute(manga, chapter, output)
 	case "mangapanda":
 		mangapanda.Execute(manga, chapter, output)
+	case "isekaiscan":
+		isekaiscan.Execute(manga, chapter, output)
 	}
 
 }

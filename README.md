@@ -39,7 +39,7 @@ Depending on the provider, you can run as follows:
 
 ### -s, --site ###
 
-Selecting the website you wish to download. (eg. nhentai,mangareader,mangatown)
+Selecting the website you wish to download. (eg. nhentai,mangareader,mangatown...)
 
 ### -m, --manga ##
 
@@ -64,6 +64,6 @@ Selecting the destinated location of the downloaded images. If it's not selected
 - add multiple manga sources 
 - batch download 
 - need to zip and change to cbz 
-- add mangasy, topmanhua, isekaiscan,mangapanda,mangakakalot, mangafreak,mngdoom,manga-here
+- add mangasy, topmanhua, isekaiscan,mangakakalot, mangafreak,mngdoom,manga-here
 - otakusmash (comic)
 - goroutine to all

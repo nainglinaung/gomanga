@@ -55,7 +55,9 @@ func (e Ehelper) ParseChapterArray(body io.Reader, selector Selector) []string {
 	doc.Find(selector.Current).Each(func(i int, s *goquery.Selection) {
 		data, exist := s.Attr("src")
 		if exist {
-			// fmt.Println(data)
+			exampleSlice = append(exampleSlice, data)
+		} else {
+			data, _ := s.Attr("data-src")
 			exampleSlice = append(exampleSlice, data)
 		}
 
