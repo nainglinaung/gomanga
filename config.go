@@ -29,4 +29,7 @@ var configs = map[string]config{
 	"mangazuki": {
 		name: "mangazuki",
 	},
+	"mangapanda": {
+		name: "mangapanda",
+	},
 }
