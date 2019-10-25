@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
@@ -15,6 +16,7 @@ var (
 	selector     ehelper.Selector
 	helper       ehelper.Ehelper
 	linkLength   int
+	wg           sync.WaitGroup
 	// ehelper ehelper
 )
 
@@ -22,7 +24,6 @@ func init() {
 	selector.Current = "img.open"
 	selector.Next = "span.next > a"
 	url = "http://www.hentai.cafe"
-	imageCounter = 1
 	linkLength = 11
 }
 
@@ -35,40 +36,61 @@ func Execute(code int, output string) {
 	}
 
 	helper.CreateFolder(folderPath)
-	crawl(getChapterLink(code))
+	link := getChapterLink(code)
+	// fmt.Println(link)
+	pages := getPages(link)
+	crawl(getChapterLink(code), pages)
+	println("Finished")
+
+}
+
+func getPages(link string) int {
+	resp := helper.FetchURL(link)
+	doc := helper.ParseChapter(resp.Body)
+	token, e := doc.Find(".text").Html()
+	helper.CheckError(e)
+
+	s := strings.Split(token, " ")
+	pages, _ := strconv.Atoi(s[0])
+	return pages
 
 }
 
 func getChapterLink(code int) string {
 	chapterLink := fmt.Sprintf("%s/hc.fyi/%d", url, code)
-	resp := helper.RequestChapterLink(chapterLink)
-	return fmt.Sprintf("%s%s", helper.ParseChapter(resp.Body, "a[title='Read']"), "page/1")
+	resp := helper.FetchURL(chapterLink)
+	doc := helper.ParseChapter(resp.Body)
+	token, exist := doc.Find("a[title='Read']").Attr("href")
+	if exist {
+		return token
+	} else {
+		return ""
+	}
 
 }
 
-func crawl(link string) {
+func crawl(link string, limit int) {
+	fmt.Println(link)
 	currentLinkArray := strings.Split(link, "/")
-	currentLinkLength := len(currentLinkArray)
+	imageArrayLength := len(currentLinkArray)
+	baseURL := strings.Join(currentLinkArray[:imageArrayLength-1], "/")
+	wg.Add(limit - 1)
 
-	if linkLength == currentLinkLength {
-		resp := helper.FetchURL(link)
-		if resp != nil {
-			imageURL, _ := helper.ParseResponse(resp.Body, selector)
-			defer resp.Body.Close()
-			fmt.Println(imageURL)
-			if len(imageURL) > 0 {
-				pageLength, _ := strconv.Atoi(currentLinkArray[linkLength-1])
-				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, pageLength)
-				fmt.Println(fullImagePath)
-				pageLength++
-				currentLinkArray[linkLength-1] = fmt.Sprintf("%d", pageLength)
-				nextLink := strings.Join(currentLinkArray, "/")
-				println(nextLink)
+	for i := 1; i <= limit; i++ {
+
+		go func(i int) {
+
+			resp := helper.FetchURL(fmt.Sprintf("%s/page/%d", baseURL, i))
+			if resp != nil {
+				imageURL, _ := helper.ParseResponse(resp.Body, selector)
+				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, i)
 				helper.Download(imageURL, fullImagePath)
 				helper.Log(fullImagePath)
-				crawl(nextLink)
 			}
-		}
+			defer wg.Done()
+
+		}(i)
 	}
+	wg.Wait()
 
 }

@@ -34,18 +34,20 @@ type Selector struct {
 	Next    string
 }
 
-func (e Ehelper) RequestChapterLink(url string) *http.Response {
-	return e.request(url)
-}
+// func (e Ehelper) RequestChapterLink(url string) *http.Response {
+// 	return e.request(url)
+// }
 
-func (e Ehelper) ParseChapter(body io.Reader, chapterSelector string) string {
+func (e Ehelper) ParseChapter(body io.Reader) *goquery.Document {
 	doc, err := goquery.NewDocumentFromReader(body)
 	e.CheckError(err)
-	token, exist := doc.Find(chapterSelector).Attr("href")
-	if exist {
-		return token
-	}
-	return ""
+	return doc
+
+	// token, exist := doc.Find(chapterSelector).Attr("href")
+	// if exist {
+	// 	return token
+	// }
+	// return ""
 
 }
 
