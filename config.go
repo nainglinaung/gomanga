@@ -41,4 +41,7 @@ var configs = map[string]config{
 	"topmanhua": {
 		name: "topmanhua",
 	},
+	"mangahere": {
+		name: "mangahere",
+	},
 }

@@ -1,6 +1,7 @@
 package ehelper
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -95,10 +96,14 @@ func (e Ehelper) ParseTotalCount(body io.Reader, selector Selector) []string {
 	doc, err := goquery.NewDocumentFromReader(body)
 	exampleSlice := []string{}
 	e.CheckError(err)
-	doc.Find(selector.Next).Each(func(i int, s *goquery.Selection) {
+	// selector.Next
+
+	doc.Find("#sel_page_2 > option").Each(func(i int, s *goquery.Selection) {
 		data, exist := s.Attr("value")
 		if exist {
 			exampleSlice = append(exampleSlice, data)
+		} else {
+			fmt.Println("heelo")
 		}
 
 	})

@@ -9,6 +9,7 @@ import (
 	"github.com/nainglinaung/gomanga/sites/hentaicafe"
 	"github.com/nainglinaung/gomanga/sites/hentainexus"
 	"github.com/nainglinaung/gomanga/sites/isekaiscan"
+	"github.com/nainglinaung/gomanga/sites/mangahere"
 	"github.com/nainglinaung/gomanga/sites/mangapanda"
 	"github.com/nainglinaung/gomanga/sites/mangareader"
 	"github.com/nainglinaung/gomanga/sites/mangatown"
@@ -78,6 +79,8 @@ func main() {
 		mngdoom.Execute(manga, chapter, output)
 	case "topmanhua":
 		topmanhua.Execute(manga, chapter, output)
+	case "mangahere":
+		mangahere.Execute(manga, chapter, output)
 	}
 
 }
