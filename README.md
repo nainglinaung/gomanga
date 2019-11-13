@@ -24,17 +24,17 @@ and if you want to install globally
 
 Depending on the provider, you can run as follows:
 
-### mangareader,mangatown,mangazuki,mangapanda,isekaiscan,mngdoom,topmanhua ###
+### Manga Sites ###
 
-
-If you're downloading manga you need to provide the name of manga and the chapter. 
+If you're downloading manga you need to provide the name of manga and the chapter. For now, We support the following sites;
+mangareader,mangatown,mangazuki,mangapanda,isekaiscan,mngdoom,topmanhua. 
 
 ```gomanga -s "mangareader" -m "World Trigger" -c 15```
 
-### nhentai, hentaicafe, hentainexus ###
+### Doujin Sites ###
 
-
-You only need to provide code to download hentai. (P.S it's more efficient to download from registered nhentai account than this).
+You only need to provide code to download. (P.S it's more efficient to download from registered nhentai account than this).
+Currently, we support nhentai, hentaicafe, hentainexus.
 
 ```gomanga -s "nhentai" -c 88848 ```
 
