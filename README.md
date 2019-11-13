@@ -26,9 +26,15 @@ Depending on the provider, you can run as follows:
 
 ### mangareader,mangatown,mangazuki,mangapanda,isekaiscan,mngdoom,topmanhua ###
 
+
+If you're downloading manga you need to provide the name of manga and the chapter. 
+
 ```gomanga -s "mangareader" -m "World Trigger" -c 15```
 
 ### nhentai, hentaicafe, hentainexus ###
+
+
+You only need to provide code to download hentai. (P.S it's more efficient to download from registered nhentai account than this).
 
 ```gomanga -s "nhentai" -c 88848 ```
 
@@ -52,6 +58,13 @@ Selecting the chapter you want to download.
 Selecting the destinated location of the downloaded images. If it's not selected, it'll automatically choose `.` as default.
 
 ``` ./gomanga -s "mangareader"  -m "bleach" -c 120 -o "output/" ```
+
+
+## How to Read ##
+
+After Downloading the designated pictures, You need to zip the folder and change the extension to either .cbz or .cbr and feed it to your comic reader of desired platform. In my case, I use [Panel](https://apps.apple.com/us/app/panels-comic-reader/id1236567663)
+
+
 
 ## TODO ##
 
