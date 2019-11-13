@@ -13,7 +13,7 @@ Learning Golang by doing familiar things
 
 So far, you can build with  
 
-``` go build main.go -o . ```
+``` go build -o gomanga ./ ```
 
 and if you want to install globally 
 
@@ -35,8 +35,6 @@ Depending on the provider, you can run as follows:
 
 ## Definition ##
 
-
-
 ### -s, --site ###
 
 Selecting the website you wish to download. (eg. nhentai,mangareader,mangatown...)
@@ -55,15 +53,14 @@ Selecting the destinated location of the downloaded images. If it's not selected
 
 ``` ./gomanga -s "mangareader"  -m "bleach" -c 120 -o "output/" ```
 
-
-
 ## TODO ##
 
-- fix bugs
-- refactor
+- refactor mangatown
+- goroutine to hentainexus 
+- drop support for nhentai
 - add multiple manga sources 
 - batch download 
 - need to zip and change to cbz 
-- add mangasy,mangakakalot, mangafreak,manga-here
+- add mangasy,mangakakalot, mangafreak
 - otakusmash (comic)
-- goroutine to all
+

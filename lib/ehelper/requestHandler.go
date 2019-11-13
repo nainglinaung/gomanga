@@ -33,10 +33,6 @@ type Selector struct {
 	Next    string
 }
 
-// func (e Ehelper) RequestChapterLink(url string) *http.Response {
-// 	return e.request(url)
-// }
-
 func (e Ehelper) request(url string) *http.Response {
 	client := &http.Client{
 		Timeout: 30 * time.Second,

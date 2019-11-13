@@ -19,10 +19,6 @@ var (
 	total      []string
 )
 
-// https://www.isekaiscan.com/manga/tomb-raider-king/chapter-1
-// https://isekaiscan.com/manga/tomb-raider-king/chapter-1/
-// https://www.isekaiscan.com/manga/tomb-raider-king/chapter-28/
-
 func init() {
 	selector.Current = ".page-break > img"
 	baseURL = "http://topmanhua.com"
@@ -58,11 +54,11 @@ func crawl(link string, chapter int) {
 
 		for i := 0; i < imageArrayLength; i++ {
 			go func(i int) {
+				defer wg.Done()
 				imageURL := strings.TrimSpace(imageArray[i])
 				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, i)
 				helper.Download(imageURL, fullImagePath)
 				helper.Log(fullImagePath)
-				defer wg.Done()
 			}(i)
 		}
 

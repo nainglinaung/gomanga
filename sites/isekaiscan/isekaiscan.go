@@ -53,11 +53,11 @@ func crawl(link string, chapter int) {
 
 		for i := 0; i < imageArrayLength; i++ {
 			go func(i int) {
+				defer wg.Done()
 				imageURL := strings.TrimSpace(imageArray[i])
 				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, i)
 				helper.Download(imageURL, fullImagePath)
 				helper.Log(fullImagePath)
-				defer wg.Done()
 			}(i)
 		}
 

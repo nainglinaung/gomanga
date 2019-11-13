@@ -79,7 +79,7 @@ func crawl(link string, limit int) {
 	for i := 1; i <= limit; i++ {
 
 		go func(i int) {
-
+			defer wg.Done()
 			resp := helper.FetchURL(fmt.Sprintf("%s/page/%d", baseURL, i))
 			if resp != nil {
 				imageURL, _ := helper.ParseResponse(resp.Body, selector)
@@ -87,8 +87,6 @@ func crawl(link string, limit int) {
 				helper.Download(imageURL, fullImagePath)
 				helper.Log(fullImagePath)
 			}
-			defer wg.Done()
-
 		}(i)
 	}
 	wg.Wait()
