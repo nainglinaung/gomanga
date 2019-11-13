@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
 
@@ -14,6 +15,7 @@ var (
 	selector     ehelper.Selector
 	wg           sync.WaitGroup
 	helper       ehelper.Ehelper
+	total        []string
 )
 
 func init() {
@@ -35,7 +37,16 @@ func Execute(manga string, chapter int, output string) {
 
 func GetTotalCount(link string) []string {
 	resp := helper.FetchURL(link)
-	return helper.ParseTotalCount(resp.Body, selector)
+	doc := helper.Parse(resp.Body)
+	doc.Find(selector.Next).Each(func(i int, s *goquery.Selection) {
+		data, exist := s.Attr("value")
+		if exist {
+			total = append(total, data)
+		} else {
+			fmt.Println("not existed")
+		}
+	})
+	return total
 }
 
 func crawl(link string) {

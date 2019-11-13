@@ -46,7 +46,7 @@ func Execute(code int, output string) {
 
 func getPages(link string) int {
 	resp := helper.FetchURL(link)
-	doc := helper.ParseChapter(resp.Body)
+	doc := helper.Parse(resp.Body)
 	token, e := doc.Find(".text").Html()
 	helper.CheckError(e)
 
@@ -59,7 +59,7 @@ func getPages(link string) int {
 func getChapterLink(code int) string {
 	chapterLink := fmt.Sprintf("%s/hc.fyi/%d", url, code)
 	resp := helper.FetchURL(chapterLink)
-	doc := helper.ParseChapter(resp.Body)
+	doc := helper.Parse(resp.Body)
 	token, exist := doc.Find("a[title='Read']").Attr("href")
 	if exist {
 		return token

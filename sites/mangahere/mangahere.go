@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
 
@@ -11,6 +12,7 @@ var (
 	url          string
 	folderPath   string
 	imageCounter int
+	total        []string
 	selector     ehelper.Selector
 	wg           sync.WaitGroup
 	helper       ehelper.Ehelper
@@ -18,7 +20,7 @@ var (
 
 func init() {
 	selector.Current = "img.img"
-	selector.Next = "#sel_page_1 > option"
+	selector.Next = "select.dropdown-manga option"
 	url = "http://www.manga-here.club"
 	imageCounter = 1
 
@@ -35,7 +37,17 @@ func Execute(manga string, chapter int, output string) {
 
 func GetTotalCount(link string) []string {
 	resp := helper.FetchURL(link)
-	return helper.ParseTotalCount(resp.Body, selector)
+	doc := helper.Parse(resp.Body)
+	doc.Find(selector.Next).Each(func(i int, s *goquery.Selection) {
+		data, exist := s.Attr("value")
+		if exist {
+			total = append(total, data)
+		} else {
+			fmt.Println("not existed")
+		}
+	})
+
+	return total
 }
 
 func crawl(link string) {
@@ -48,6 +60,7 @@ func crawl(link string) {
 
 	for i := 0; i < imageArrayLength; i++ {
 		go func(i int) {
+			defer wg.Done()
 			fullURL := fmt.Sprintf("%s%s", url, imageList[i])
 			resp := helper.FetchURL(fullURL)
 			if resp != nil {
@@ -55,8 +68,8 @@ func crawl(link string) {
 				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, i)
 				helper.Download(imageURL, fullImagePath)
 				helper.Log(fullImagePath)
-				defer wg.Done()
 			}
+
 		}(i)
 	}
 	wg.Wait()

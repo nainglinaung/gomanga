@@ -1,7 +1,6 @@
 package ehelper
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -37,19 +36,6 @@ type Selector struct {
 // func (e Ehelper) RequestChapterLink(url string) *http.Response {
 // 	return e.request(url)
 // }
-
-func (e Ehelper) ParseChapter(body io.Reader) *goquery.Document {
-	doc, err := goquery.NewDocumentFromReader(body)
-	e.CheckError(err)
-	return doc
-
-	// token, exist := doc.Find(chapterSelector).Attr("href")
-	// if exist {
-	// 	return token
-	// }
-	// return ""
-
-}
 
 func (e Ehelper) ParseChapterArray(body io.Reader, selector Selector) []string {
 	doc, err := goquery.NewDocumentFromReader(body)
@@ -94,23 +80,10 @@ func (e Ehelper) FetchURL(link string) *http.Response {
 	}
 }
 
-func (e Ehelper) ParseTotalCount(body io.Reader, selector Selector) []string {
+func (e Ehelper) Parse(body io.Reader) *goquery.Document {
 	doc, err := goquery.NewDocumentFromReader(body)
-	exampleSlice := []string{}
 	e.CheckError(err)
-	// selector.Next
-
-	doc.Find("#sel_page_2 > option").Each(func(i int, s *goquery.Selection) {
-		data, exist := s.Attr("value")
-		if exist {
-			exampleSlice = append(exampleSlice, data)
-		} else {
-			fmt.Println("heelo")
-		}
-
-	})
-	return exampleSlice
-
+	return doc
 }
 
 func (e Ehelper) ParseResponse(body io.Reader, selector Selector) (string, string) {
