@@ -2,9 +2,11 @@ package mngdoom
 
 import (
 	"fmt"
+	"io"
 	"strings"
 	"sync"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
 
@@ -14,6 +16,7 @@ var (
 	selector   ehelper.Selector
 	helper     ehelper.Ehelper
 	wg         sync.WaitGroup
+	total      []string
 )
 
 func init() {
@@ -30,12 +33,25 @@ func Execute(manga string, chapter int, output string) {
 	crawl(fmt.Sprintf("%s/%s/%d", baseURL, manga, chapter))
 }
 
+func parseChapterArray(body io.Reader, Selector ehelper.Selector) []string {
+	doc := helper.Parse(body)
+	doc.Find(selector.Current).Each(func(i int, s *goquery.Selection) {
+		data, exist := s.Attr("value")
+		if exist {
+			total = append(total, data)
+		} else {
+			fmt.Println("not existed")
+		}
+	})
+	return total
+}
+
 func crawl(link string) {
 
 	resp := helper.FetchURL(link)
 	if resp != nil {
 
-		imageArray := helper.ParseChapterArray(resp.Body, selector)
+		imageArray := parseChapterArray(resp.Body, selector)
 		imageArrayLength := len(imageArray)
 		wg.Add(imageArrayLength)
 

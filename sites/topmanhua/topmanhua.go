@@ -2,9 +2,11 @@ package topmanhua
 
 import (
 	"fmt"
+	"io"
 	"strings"
 	"sync"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
 
@@ -14,6 +16,7 @@ var (
 	selector   ehelper.Selector
 	helper     ehelper.Ehelper
 	wg         sync.WaitGroup
+	total      []string
 )
 
 // https://www.isekaiscan.com/manga/tomb-raider-king/chapter-1
@@ -25,7 +28,6 @@ func init() {
 	baseURL = "http://topmanhua.com"
 }
 
-// #Execute blah blah
 func Execute(manga string, chapter int, output string) {
 	manga = helper.LowerAndReplace(manga, " ", "-")
 	folderPath = helper.CreateFolderPath(manga, chapter, output)
@@ -33,11 +35,24 @@ func Execute(manga string, chapter int, output string) {
 	crawl(fmt.Sprintf("%s/manhua/%s/chapter-%d", baseURL, manga, chapter), chapter)
 }
 
+func parseChapterArray(body io.Reader, Selector ehelper.Selector) []string {
+	doc := helper.Parse(body)
+	doc.Find(selector.Current).Each(func(i int, s *goquery.Selection) {
+		data, exist := s.Attr("data-src")
+		if exist {
+			total = append(total, data)
+		} else {
+			fmt.Println("not existed")
+		}
+	})
+	return total
+}
+
 func crawl(link string, chapter int) {
 
 	resp := helper.FetchURL(link)
 	if resp != nil {
-		imageArray := helper.ParseChapterArray(resp.Body, selector)
+		imageArray := parseChapterArray(resp.Body, selector)
 		imageArrayLength := len(imageArray)
 		wg.Add(imageArrayLength)
 

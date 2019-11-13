@@ -2,15 +2,18 @@ package mangazuki
 
 import (
 	"fmt"
+	"io"
 	"strings"
 	"sync"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
 
 var (
 	baseURL    string
 	folderPath string
+	total      []string
 	selector   ehelper.Selector
 	helper     ehelper.Ehelper
 	wg         sync.WaitGroup
@@ -30,11 +33,24 @@ func Execute(manga string, chapter int, output string) {
 	crawl(fmt.Sprintf("%s/manga/%s/%s-chapter-%d", baseURL, manga, manga, chapter), chapter)
 }
 
+func parseChapterArray(body io.Reader, Selector ehelper.Selector) []string {
+	doc := helper.Parse(body)
+	doc.Find(selector.Current).Each(func(i int, s *goquery.Selection) {
+		data, exist := s.Attr("src")
+		if exist {
+			total = append(total, data)
+		} else {
+			fmt.Println("not existed")
+		}
+	})
+	return total
+}
+
 func crawl(link string, chapter int) {
 
 	resp := helper.FetchURL(link)
 	if resp != nil {
-		imageArray := helper.ParseChapterArray(resp.Body, selector)
+		imageArray := parseChapterArray(resp.Body, selector)
 		imageArrayLength := len(imageArray)
 		wg.Add(imageArrayLength)
 

@@ -37,30 +37,6 @@ type Selector struct {
 // 	return e.request(url)
 // }
 
-func (e Ehelper) ParseChapterArray(body io.Reader, selector Selector) []string {
-	doc, err := goquery.NewDocumentFromReader(body)
-
-	exampleSlice := []string{}
-	e.CheckError(err)
-	doc.Find(selector.Current).Each(func(i int, s *goquery.Selection) {
-
-		data, exist := s.Attr("src")
-		if exist {
-			exampleSlice = append(exampleSlice, data)
-		} else {
-			data, exist := s.Attr("data-src")
-			if exist {
-				exampleSlice = append(exampleSlice, data)
-			} else {
-				data, _ := s.Attr("value")
-				exampleSlice = append(exampleSlice, data)
-			}
-		}
-
-	})
-	return exampleSlice
-}
-
 func (e Ehelper) request(url string) *http.Response {
 	client := &http.Client{
 		Timeout: 30 * time.Second,
