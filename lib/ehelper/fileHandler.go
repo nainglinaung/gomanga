@@ -33,4 +33,5 @@ func (e Ehelper) Download(url string, fullImagePath string) {
 	file, err := os.Create(fullImagePath)
 	_, err = io.Copy(file, resp.Body)
 	e.CheckError(err)
+	defer resp.Body.Close()
 }

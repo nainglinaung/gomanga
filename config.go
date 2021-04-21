@@ -47,4 +47,10 @@ var configs = map[string]config{
 	"manytoon": {
 		name: "manytoon",
 	},
+	"manhwa18": {
+		name: "manhwa18",
+	},
+	"manhwaclub": {
+		name: "manhwaclub",
+	},
 }

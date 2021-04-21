@@ -35,9 +35,10 @@ type Selector struct {
 
 func (e Ehelper) request(url string) *http.Response {
 	client := &http.Client{
-		Timeout: 100 * time.Second,
+		Timeout: 600 * time.Second,
 	}
 	resp, err := client.Get(url)
+
 	e.CheckError(err)
 	return resp
 }

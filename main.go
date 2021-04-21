@@ -15,6 +15,8 @@ import (
 	"github.com/nainglinaung/gomanga/sites/mangareader"
 	"github.com/nainglinaung/gomanga/sites/mangatown"
 	"github.com/nainglinaung/gomanga/sites/mangazuki"
+	"github.com/nainglinaung/gomanga/sites/manhwa18"
+	"github.com/nainglinaung/gomanga/sites/manhwaclub"
 	"github.com/nainglinaung/gomanga/sites/manytoon"
 	"github.com/nainglinaung/gomanga/sites/mngdoom"
 	"github.com/nainglinaung/gomanga/sites/nhentai"
@@ -88,8 +90,12 @@ func main() {
 
 	switch name := configs[site].name; name {
 
+	case "manhwaclub":
+		manhwaclub.Execute(manga, chapter, output)
 	case "mangareader":
 		mangareader.Execute(manga, chapter, output)
+	case "manhwa18":
+		manhwa18.Execute(manga, chapter, output)
 	case "nhentai":
 		nhentai.Execute(chapter, output)
 	case "mangatown":
