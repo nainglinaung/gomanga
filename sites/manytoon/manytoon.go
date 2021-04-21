@@ -1,39 +1,45 @@
-package topmanhua
+package manytoon
 
 import (
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
-	"github.com/nainglinaung/gomanga/lib/ehelper"
 	"io"
 	"strings"
 	"sync"
+
+	"github.com/PuerkitoBio/goquery"
+	"github.com/nainglinaung/gomanga/lib/ehelper"
 )
 
 var (
 	baseURL    string
 	folderPath string
+	total      []string
 	selector   ehelper.Selector
 	helper     ehelper.Ehelper
 	wg         sync.WaitGroup
-	total      []string
 )
 
 func init() {
-	selector.Current = ".page-break > img"
-	baseURL = "http://topmanhua.com"
+	selector.Current = ".wp-manga-chapter-img"
+	selector.Next = "span.next > a"
+	baseURL = "https://manytoon.com"
 }
 
+// #Execute blah blah
 func Execute(manga string, chapter int, output string) {
+
 	manga = helper.LowerAndReplace(manga, " ", "-")
 	folderPath = helper.CreateFolderPath(manga, chapter, output)
 	helper.CreateFolder(folderPath)
-	crawl(fmt.Sprintf("%s/manhua/%s/chapter-%d", baseURL, manga, chapter), chapter)
+	crawl(fmt.Sprintf("%s/comic/%s/chapter-%d", baseURL, manga, chapter), chapter)
 }
 
 func parseChapterArray(body io.Reader, Selector ehelper.Selector) []string {
 	doc := helper.Parse(body)
+
 	doc.Find(selector.Current).Each(func(i int, s *goquery.Selection) {
-		data, exist := s.Attr("data-src")
+		data, exist := s.Attr("src")
+
 		if exist {
 			total = append(total, data)
 		} else {
@@ -56,6 +62,7 @@ func crawl(link string, chapter int) {
 				defer wg.Done()
 				imageURL := strings.TrimSpace(imageArray[i])
 				fullImagePath := fmt.Sprintf("%s/%d.jpg", folderPath, i)
+				fmt.Println(imageURL)
 				helper.Download(imageURL, fullImagePath)
 				helper.Log(fullImagePath)
 			}(i)

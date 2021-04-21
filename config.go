@@ -44,4 +44,7 @@ var configs = map[string]config{
 	"mangahere": {
 		name: "mangahere",
 	},
+	"manytoon": {
+		name: "manytoon",
+	},
 }

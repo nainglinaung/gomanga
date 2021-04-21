@@ -52,6 +52,7 @@ func GetTotalCount(link string) []string {
 func crawl(link string) {
 
 	imageList := GetTotalCount(link)
+	fmt.Println(imageList)
 	imageArrayLength := len(imageList)
 	wg.Add(imageArrayLength)
 
@@ -59,6 +60,7 @@ func crawl(link string) {
 		go func(i int) {
 			defer wg.Done()
 			fullURL := fmt.Sprintf("%s%s", url, imageList[i])
+			fmt.Println(fullURL)
 			resp := helper.FetchURL(fullURL)
 			if resp != nil {
 				imageURL, _ := helper.ParseResponse(resp.Body, selector)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/ProfOak/flag2"
 	"github.com/nainglinaung/gomanga/sites/hentaicafe"
@@ -14,6 +15,7 @@ import (
 	"github.com/nainglinaung/gomanga/sites/mangareader"
 	"github.com/nainglinaung/gomanga/sites/mangatown"
 	"github.com/nainglinaung/gomanga/sites/mangazuki"
+	"github.com/nainglinaung/gomanga/sites/manytoon"
 	"github.com/nainglinaung/gomanga/sites/mngdoom"
 	"github.com/nainglinaung/gomanga/sites/nhentai"
 	"github.com/nainglinaung/gomanga/sites/topmanhua"
@@ -32,7 +34,6 @@ func checkParameter(options flag2.Options) (string, string, string, string) {
 	site = fmt.Sprintf("%v", options["site"])
 	manga = fmt.Sprintf("%v", options["manga"])
 	chapter = fmt.Sprintf("%v", options["chapter"])
-
 	return output, site, manga, chapter
 
 }
@@ -50,6 +51,29 @@ func init() {
 	output, site, manga, chapter = checkParameter(options)
 }
 
+func parseChapter(chapter string) []string {
+
+	commaContain := strings.Contains(chapter, ",")
+	c := make([]string, 0)
+
+	if commaContain {
+		processedString := strings.Split(chapter, ",")
+		fmt.Println(commaContain)
+		fmt.Println(processedString)
+		return c
+	}
+
+	dashContain := strings.Contains(chapter, "-")
+	if dashContain {
+		processedString := strings.Split(chapter, ",")
+		fmt.Println(dashContain)
+		fmt.Println(processedString)
+		return c
+	}
+
+	return c
+}
+
 func main() {
 
 	chapter, err := strconv.Atoi(chapter)
@@ -58,7 +82,12 @@ func main() {
 		panic(err)
 	}
 
+	// test := parseChapter(chapter)
+	// fmt.Println(test)
+	// fmt.Println(configs[site].name)
+
 	switch name := configs[site].name; name {
+
 	case "mangareader":
 		mangareader.Execute(manga, chapter, output)
 	case "nhentai":
@@ -71,6 +100,8 @@ func main() {
 		hentainexus.Execute(chapter, output)
 	case "mangazuki":
 		mangazuki.Execute(manga, chapter, output)
+	case "manytoon":
+		manytoon.Execute(manga, chapter, output)
 	case "mangapanda":
 		mangapanda.Execute(manga, chapter, output)
 	case "isekaiscan":
